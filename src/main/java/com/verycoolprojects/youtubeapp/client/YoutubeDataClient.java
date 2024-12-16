@@ -1,6 +1,6 @@
 package com.verycoolprojects.youtubeapp.client;
 
-import com.verycoolprojects.youtubeapp.model.SearchResult;
+import com.verycoolprojects.youtubeapp.model.search.SearchResult;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

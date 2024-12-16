@@ -1,7 +1,7 @@
 package com.verycoolprojects.youtubeapp.controller;
 
 import com.verycoolprojects.youtubeapp.client.YoutubeDataClient;
-import com.verycoolprojects.youtubeapp.model.SearchResult;
+import com.verycoolprojects.youtubeapp.model.search.SearchResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class SearchController {
 
     @GetMapping("/search")
     public ResponseEntity<SearchResult> search(@RequestParam MultiValueMap<String, String> queryParams) {
-        log.debug("Received a search request: {}", queryParams);
+        log.debug("Search Request: {}", queryParams);
         SearchResult response = client.search(queryParams);
-        log.debug("Response: {}", response);
+        log.debug("Search Response: {}", response);
         return ResponseEntity.ok(response);
     }
 }
