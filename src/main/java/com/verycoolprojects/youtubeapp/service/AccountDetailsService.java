@@ -1,7 +1,7 @@
 package com.verycoolprojects.youtubeapp.service;
 
-import com.verycoolprojects.youtubeapp.model.auth.AccountDetails;
 import com.verycoolprojects.youtubeapp.model.auth.Account;
+import com.verycoolprojects.youtubeapp.model.auth.AccountDetails;
 import com.verycoolprojects.youtubeapp.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
