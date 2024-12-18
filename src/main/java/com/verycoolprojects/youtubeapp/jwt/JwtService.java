@@ -28,6 +28,9 @@ public class JwtService {
     public String generateToken(String username) {
         long currentTime = System.currentTimeMillis();
         return Jwts.builder()
+                .header()
+                .type("JWT")
+                .and()
                 .claims()
                 .id(UUID.randomUUID().toString())
                 .subject(username)

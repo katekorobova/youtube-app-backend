@@ -1,4 +1,4 @@
-package com.verycoolprojects.youtubeapp.model.auth;
+package com.verycoolprojects.youtubeapp.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.verycoolprojects.youtubeapp.model.search;
+package com.verycoolprojects.youtubeapp.client.model;
 
 import lombok.Data;
 

@@ -1,11 +1,13 @@
 package com.verycoolprojects.youtubeapp.jwt;
 
 import com.verycoolprojects.youtubeapp.service.AccountDetailsService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -31,12 +34,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader(AUTHORIZATION_HEADER);
         if (isBearerToken(authHeader)) {
-            String token = authHeader.substring(BEARER_PREFIX.length());
-            String username = jwtService.extractUserName(token);
+            try {
+                String token = authHeader.substring(BEARER_PREFIX.length());
+                String username = jwtService.extractUserName(token);
 
-            if (username != null && isAuthenticationAbsent()) {
-                processTokenAuthentication(token, username, request);
+                if (username != null && isAuthenticationAbsent()) {
+                    processTokenAuthentication(token, username, request);
 
+                }
+            } catch (JwtException jwtException) {
+                log.error("Invalid Token", jwtException);
             }
         }
 

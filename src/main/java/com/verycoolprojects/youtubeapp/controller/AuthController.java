@@ -1,33 +1,40 @@
 package com.verycoolprojects.youtubeapp.controller;
 
 
-import com.verycoolprojects.youtubeapp.model.auth.Account;
+import com.verycoolprojects.youtubeapp.dto.auth.LoginRequest;
+import com.verycoolprojects.youtubeapp.dto.auth.RegisterRequest;
+import com.verycoolprojects.youtubeapp.dto.auth.TokenResponse;
+import com.verycoolprojects.youtubeapp.jwt.JwtService;
 import com.verycoolprojects.youtubeapp.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
 @Slf4j
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-    private final AccountService service;
+    private final AccountService accountService;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<Account> register(@RequestParam String username, @RequestParam String password) {
-        log.debug("Register Request: username={}, password={}", username, password);
-        boolean success = service.register(username, password);
+    public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
+        log.debug("Register Request: {}", request);
+
+        String username = request.getUsername();
+        String password = request.getPassword();
+        boolean success = accountService.register(username, password);
+
         if (success) {
-            log.debug("Register Response: 201 Created");
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            TokenResponse response = new TokenResponse(username, jwtService.generateToken(username));
+            log.debug("Register Response: {}", response.mask());
+            return ResponseEntity.ok(response);
         } else {
             log.debug("Register Response: 409 Conflict");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -35,9 +42,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        Optional<String> optionalToken = service.verify(username, password);
-        return optionalToken.map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) {
+        log.debug("Register Request: {}", request);
+
+        String username = request.getUsername();
+        String password = request.getPassword();
+        Optional<String> optionalToken = accountService.verify(username, password);
+
+        if (optionalToken.isPresent()) {
+            TokenResponse response = new TokenResponse(username, optionalToken.get());
+            log.debug("Login Response: {}", response.mask());
+            return ResponseEntity.ok(response);
+        } else {
+            log.debug("Login Response: 401 Unauthorized");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

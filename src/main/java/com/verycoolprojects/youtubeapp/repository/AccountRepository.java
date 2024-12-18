@@ -1,6 +1,6 @@
 package com.verycoolprojects.youtubeapp.repository;
 
-import com.verycoolprojects.youtubeapp.model.auth.Account;
+import com.verycoolprojects.youtubeapp.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.verycoolprojects.youtubeapp.model.search;
+package com.verycoolprojects.youtubeapp.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
