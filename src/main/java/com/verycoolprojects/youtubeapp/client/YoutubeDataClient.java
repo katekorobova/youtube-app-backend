@@ -24,6 +24,12 @@ public class YoutubeDataClient {
         this.apiKey = apiKey;
     }
 
+    private static void setParam(String name, String value, MultiValueMap<String, String> multimap) {
+        if (Objects.nonNull(value)) {
+            multimap.add(name, value);
+        }
+    }
+
     @SneakyThrows
     public SearchResult search(VideoQuery videoQuery) {
         MultiValueMap<String, String> queryParams = getQueryParams(videoQuery);
@@ -42,15 +48,16 @@ public class YoutubeDataClient {
         multiMap.add("part", "snippet");
         multiMap.add("type", "video");
         multiMap.add("maxResults", "50");
-        multiMap.add("q", videoQuery.getQ());
-        multiMap.add("publishedAfter", videoQuery.getPublishedAfter());
-        multiMap.add("publishedBefore", videoQuery.getPublishedBefore());
-        multiMap.add("category", videoQuery.getCategory());
-        multiMap.add("order", videoQuery.getOrder());
+
+        setParam("q", videoQuery.getQ(), multiMap);
+        setParam("publishedAfter", videoQuery.getPublishedAfter(), multiMap);
+        setParam("publishedBefore", videoQuery.getPublishedBefore(), multiMap);
+        setParam("category", videoQuery.getCategory(), multiMap);
+        setParam("order", videoQuery.getOrder(), multiMap);
 
         if (Objects.nonNull(videoQuery.getLocationData())) {
-            multiMap.add("location", videoQuery.getLocationData().getLocation());
-            multiMap.add("locationRadius", videoQuery.getLocationData().getLocationRadius());
+            setParam("location", videoQuery.getLocationData().getLocation(), multiMap);
+            setParam("locationRadius", videoQuery.getLocationData().getLocationRadius(), multiMap);
         }
 
         return multiMap;

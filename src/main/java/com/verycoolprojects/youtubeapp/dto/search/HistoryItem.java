@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @Builder
 public class HistoryItem {
-    private int id;
+    private long id;
     private Date date;
     private VideoQuery query;
 }

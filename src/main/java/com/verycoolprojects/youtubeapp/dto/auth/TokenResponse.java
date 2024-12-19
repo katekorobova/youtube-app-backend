@@ -15,6 +15,7 @@ public class TokenResponse {
 
     public TokenResponse mask() {
         return TokenResponse.builder()
+                .username(username)
                 .accessToken(accessToken.substring(0, 10) + "...")
                 .build();
     }

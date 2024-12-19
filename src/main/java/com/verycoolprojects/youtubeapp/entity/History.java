@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String username;
