@@ -1,6 +1,7 @@
-package com.verycoolprojects.youtubeapp.jwt;
+package com.verycoolprojects.youtubeapp.config;
 
-import com.verycoolprojects.youtubeapp.service.AccountDetailsService;
+import com.verycoolprojects.youtubeapp.service.AccountDetails;
+import com.verycoolprojects.youtubeapp.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,7 +26,6 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtService jwtService;
-    private final AccountDetailsService accountDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -36,10 +35,8 @@ public class JwtFilter extends OncePerRequestFilter {
         if (isBearerToken(authHeader)) {
             try {
                 String token = authHeader.substring(BEARER_PREFIX.length());
-                String username = jwtService.extractUserName(token);
-
-                if (username != null && isAuthenticationAbsent()) {
-                    processTokenAuthentication(token, username, request);
+                if (isAuthenticationAbsent()) {
+                    processAccessTokenAuthentication(token, request);
 
                 }
             } catch (JwtException jwtException) {
@@ -58,17 +55,12 @@ public class JwtFilter extends OncePerRequestFilter {
         return SecurityContextHolder.getContext().getAuthentication() == null;
     }
 
-    private void processTokenAuthentication(String token, String username, HttpServletRequest request) {
-        UserDetails userDetails = accountDetailsService.loadUserByUsername(username);
-
-        if (jwtService.validateToken(token, userDetails)) {
-            // Create authentication token
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-        }
+    private void processAccessTokenAuthentication(String token, HttpServletRequest request) {
+        String username = jwtService.validateAccessToken(token);
+        AccountDetails accountDetails = new AccountDetails(username);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                accountDetails, null, accountDetails.getAuthorities());
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

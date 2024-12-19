@@ -15,6 +15,10 @@ public class AccountDetails implements UserDetails {
         this.account = account;
     }
 
+    public AccountDetails(String username) {
+        this.account = Account.builder().username(username).build();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));

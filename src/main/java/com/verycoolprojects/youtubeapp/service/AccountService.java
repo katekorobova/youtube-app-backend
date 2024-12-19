@@ -1,7 +1,6 @@
 package com.verycoolprojects.youtubeapp.service;
 
 import com.verycoolprojects.youtubeapp.entity.Account;
-import com.verycoolprojects.youtubeapp.jwt.JwtService;
 import com.verycoolprojects.youtubeapp.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +36,8 @@ public class AccountService {
         }
     }
 
-    public Optional<String> verify(String username, String password) {
+    public boolean verify(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        if (authentication.isAuthenticated()) {
-            return Optional.of(jwtService.generateToken(username));
-        } else {
-            return Optional.empty();
-        }
+        return authentication.isAuthenticated();
     }
 }
