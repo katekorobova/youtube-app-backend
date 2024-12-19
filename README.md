@@ -76,6 +76,7 @@ Create an env.properties file in the root directory with the following variables
 ```
 GOOGLE_API_KEY=<your_api_key>
 JWT_SECRET_KEY=<your_secret_key_base64_encoded>
+JWT_SECURE_COOKIES=false # Set to true if you're using https
 
 SERVER_PORT=<desired_server_port>
 

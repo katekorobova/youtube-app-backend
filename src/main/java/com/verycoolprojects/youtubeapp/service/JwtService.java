@@ -24,12 +24,15 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+    private final boolean secureCookies;
     private final SecretKey secretKey;
     private final JwtParser parser;
     private final TokenRepository repository;
 
     @SneakyThrows
-    public JwtService(@Value("${jwt.secretKey}") String secretKeyString, TokenRepository repository) {
+    public JwtService(@Value("${jwt.secureCookies}") boolean secureCookies,
+                      @Value("${jwt.secretKey}") String secretKeyString, TokenRepository repository) {
+        this.secureCookies = secureCookies;
         this.secretKey = Keys.hmacShaKeyFor(
                 Base64.getDecoder().decode(secretKeyString.getBytes(StandardCharsets.UTF_8)));
         this.parser = Jwts.parser().verifyWith(secretKey).build();
@@ -80,6 +83,7 @@ public class JwtService {
                 .build();
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setSecure(secureCookies);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
@@ -141,6 +145,7 @@ public class JwtService {
     public void revokeRefreshToken(String refreshToken, HttpServletResponse response) {
 
         Cookie cookie = new Cookie("refreshToken", "");
+        cookie.setSecure(secureCookies);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
