@@ -101,9 +101,13 @@ The backend will run at http://localhost:<desired_server_port>.
 
 ## API Endpoints
 ### Authentication
-POST /register – Register a new user.
+POST /register – Register a new user and return an access token and a refresh token.
 
-POST /login – Authenticate user and return JWT.
+POST /login – Authenticate a user and return an access token and a refresh token.
+
+POST /refresh - Generate a new access token using a valid refresh token.
+
+POST /logout - Invalidate the refresh token to log the user out.
 
 ### Search Functionality
 POST /search – Perform a video search using query parameters and filters.
