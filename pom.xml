@@ -11,7 +11,7 @@
 	<groupId>com.very-cool-projects</groupId>
 	<artifactId>youtube-app-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>youtube-app-backend</name>
 	<description>Youtube App Backend</description>
 	<url/>
