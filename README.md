@@ -5,17 +5,13 @@ The youtube-app-backend is a backend service for a web application that leverage
 The backend handles user authentication using JSON Web Tokens and integrates a database to store search request history.
 
 ## Features
-- YouTube Data API Mediation
-Processes API requests, manages API keys, and optimizes communication with the YouTube Data API.
+- YouTube Data API Mediation: Processes API requests, manages API keys, and optimizes communication with the YouTube Data API.
 
-- User Authentication
-Secure JWT-based authentication for authorized access to protected endpoints.
+- User Authentication: Secure JWT-based authentication for authorized access to protected endpoints.
 
-- Request History Storage
-Stores and retrieves authenticated users’ search histories in a PostgreSQL database.
+- Request History Storage: Stores and retrieves authenticated users’ search histories in a PostgreSQL database.
 
-- Scalable RESTful API
-Provides endpoints for video search, user authentication, and history management.
+- Scalable RESTful API: Provides endpoints for video search, user authentication, and history management.
 
 ## Technologies Used
 - Java 17
@@ -88,15 +84,15 @@ ALLOWED_ORIGINS=<your_frontend_urls> # Example: http://localhost:5173,http://loc
 ```
 
 #### Install Dependencies:
-Use Maven to download and set up all dependencies:
+Use the Maven Wrapper (./mvnw or mvnw.cmd for Windows) to download and set up all dependencies:
 ```
-mvn clean install
+./mvnw clean install
 ```
 
 #### Run the Application:
 Start the Spring Boot server:
 ```
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 The backend will run at http://localhost:<desired_server_port>.
 
