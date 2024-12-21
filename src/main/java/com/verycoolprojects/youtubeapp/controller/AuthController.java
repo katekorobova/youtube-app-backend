@@ -82,7 +82,7 @@ public class AuthController {
 
         jwtService.revokeRefreshToken(refreshToken, response);
 
-        log.debug("Logout Response: 200 Ok");
-        return new ResponseEntity<>(HttpStatus.OK);
+        log.debug("Logout Response: 204 No Content");
+        return ResponseEntity.noContent().build();
     }
 }

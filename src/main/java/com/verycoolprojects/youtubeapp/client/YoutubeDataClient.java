@@ -19,7 +19,7 @@ public class YoutubeDataClient {
     private final RestClient restClient;
     private final String apiKey;
 
-    public YoutubeDataClient(RestClient restClient, @Value("${client.apiKey}") String apiKey) {
+    public YoutubeDataClient(RestClient restClient, @Value("${application.client.apiKey}") String apiKey) {
         this.restClient = restClient;
         this.apiKey = apiKey;
     }

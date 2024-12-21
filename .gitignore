@@ -34,5 +34,7 @@ build/
 
 
 # Environment
-env.properties
-*.env
+/env.properties
+/*.env
+
+/docker-compose.yml

@@ -30,8 +30,8 @@ public class JwtService {
     private final TokenRepository repository;
 
     @SneakyThrows
-    public JwtService(@Value("${jwt.secureCookies}") boolean secureCookies,
-                      @Value("${jwt.secretKey}") String secretKeyString, TokenRepository repository) {
+    public JwtService(@Value("${application.jwt.secureCookies}") boolean secureCookies,
+                      @Value("${application.jwt.secretKey}") String secretKeyString, TokenRepository repository) {
         this.secureCookies = secureCookies;
         this.secretKey = Keys.hmacShaKeyFor(
                 Base64.getDecoder().decode(secretKeyString.getBytes(StandardCharsets.UTF_8)));
@@ -49,7 +49,7 @@ public class JwtService {
                 .id(UUID.randomUUID().toString())
                 .subject(username)
                 .issuedAt(new Date(currentTime))
-                .expiration(new Date(currentTime + 15 * 60 * 1000))
+                .expiration(new Date(currentTime + 5 * 60 * 1000))
                 .and()
                 .signWith(secretKey)
                 .compact();

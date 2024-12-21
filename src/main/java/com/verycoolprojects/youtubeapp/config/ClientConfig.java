@@ -9,7 +9,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 @Configuration
 public class ClientConfig {
     @Bean
-    public RestClient restClient(@Value("${client.baseUrl}") String baseUrl) {
+    public RestClient restClient(@Value("${application.client.baseUrl}") String baseUrl) {
         return RestClient.builder()
                 .baseUrl(baseUrl)
                 .build();

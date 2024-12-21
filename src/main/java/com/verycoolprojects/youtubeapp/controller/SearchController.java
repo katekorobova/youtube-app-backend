@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -29,14 +28,22 @@ public class SearchController {
     private final HistoryMapper mapper;
 
     @PostMapping("/search")
-    public ResponseEntity<SearchResult> search(Authentication authentication, @RequestBody VideoQuery videoQuery) {
+    public ResponseEntity<SearchResult> search(@RequestBody VideoQuery videoQuery) {
         log.debug("Search Request: {}", videoQuery);
 
-        if (Objects.nonNull(authentication)) {
-            String username = authentication.getName();
-            log.debug("Username: {}", username);
-            new Thread(() -> service.save(new History(username, videoQuery))).start();
-        }
+        SearchResult response = client.search(videoQuery);
+
+        log.debug("Search Response: {}", response);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/searchAuth")
+    public ResponseEntity<SearchResult> searchAuth(Authentication authentication, @RequestBody VideoQuery videoQuery) {
+        String username = authentication.getName();
+        log.debug("Search Request: username={}, videoQuery={}", username, videoQuery);
+        new Thread(() -> service.save(new History(username, videoQuery))).start();
+
         SearchResult response = client.search(videoQuery);
         log.debug("Search Response: {}", response);
         return ResponseEntity.ok(response);
