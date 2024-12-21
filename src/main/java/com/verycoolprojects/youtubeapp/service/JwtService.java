@@ -82,12 +82,7 @@ public class JwtService {
                 .revoked(false)
                 .build();
 
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
-        cookie.setSecure(secureCookies);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
-
+        response.addCookie(createRefreshTokenCookie(refreshToken, maxAge));
         repository.save(token);
     }
 
@@ -143,12 +138,7 @@ public class JwtService {
     }
 
     public void revokeRefreshToken(String refreshToken, HttpServletResponse response) {
-
-        Cookie cookie = new Cookie("refreshToken", "");
-        cookie.setSecure(secureCookies);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        response.addCookie(createRefreshTokenCookie("", 0));
 
         Claims claims = extractAllClaims(refreshToken);
         Optional<Token> optionalToken = repository.findById(extractId(claims));
@@ -158,6 +148,17 @@ public class JwtService {
 
         Token token = optionalToken.get();
         invalidate(token);
+    }
+
+    private Cookie createRefreshTokenCookie(String refreshToken, int maxAge) {
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        if (secureCookies) {
+            cookie.setAttribute("SameSite", "None");
+        }
+        cookie.setSecure(secureCookies);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(maxAge);
+        return cookie;
     }
 
     public boolean soonToExpire(Claims claims) {

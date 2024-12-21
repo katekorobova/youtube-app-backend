@@ -76,7 +76,7 @@ Create an env.properties file in the root directory with the following variables
 ```
 GOOGLE_API_KEY=<your_api_key>
 JWT_SECRET_KEY=<your_secret_key_base64_encoded>
-JWT_SECURE_COOKIES=false # Set to true if you're using https
+JWT_SECURE_COOKIES=false # Set to true if you're deploying the app on a remote server
 
 SERVER_PORT=<desired_server_port>
 
@@ -112,6 +112,8 @@ POST /logout - Invalidate the refresh token to log the user out.
 
 ### Search Functionality
 POST /search – Perform a video search using query parameters and filters.
+
+POST /searchAuth – Perform a video search and add the query to the authenticated user's search history.
 
 ### User Search History
 GET /history – Retrieve the search history of the authenticated user.
