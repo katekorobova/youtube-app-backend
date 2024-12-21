@@ -118,3 +118,7 @@ POST /searchAuth – Perform a video search and add the query to the authenticat
 ### User Search History
 GET /history – Retrieve the search history of the authenticated user.
 
+## Links:
+Frontend Deployment: The frontend is deployed on [Vercel](https://youtube-app-tawny.vercel.app).
+
+Frontend Repository: View the frontend repository [here](https://github.com/katekorobova/youtube-app).
