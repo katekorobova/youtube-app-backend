@@ -1,4 +1,10 @@
 # youtube-app-backend
+
+## Links
+Frontend Deployment: The frontend is deployed [here](https://youtube-app-tawny.vercel.app).
+
+Frontend Repository: View the frontend repository [here](https://github.com/katekorobova/youtube-app).
+
 ## Overview
 The youtube-app-backend is a backend service for a web application that leverages the YouTube Data API for advanced video search. Built with Java and Spring Boot, it serves as a mediator between the frontend application and the YouTube Data API, offering features such as secure user authentication and search request history management.
 
@@ -35,7 +41,7 @@ The backend handles user authentication using JSON Web Tokens and integrates a d
 - Enable the [YouTube Data API v3](https://console.cloud.google.com/apis/api/youtube.googleapis.com/).
 
 
-#### Generate a JWT secret key:
+#### Generate a JWT secret key
 You can potentially use any base64-encoded string, but the recommended approach is to use a cryptographically secure random generator, for example:
 ```
 import javax.crypto.KeyGenerator;
@@ -54,20 +60,20 @@ public class JwtKeyGenerator {
 }
 ```
 
-#### Database Setup:
+#### Database Setup
 Ensure your PostgreSQL database is running.
 
 Make sure an empty schema called public exists in your database.
 
 Create a new schema called authentication.
 
-#### Clone the Repository:
+#### Clone the Repository
 ```
 git clone https://github.com/katekorobova/youtube-app-backend.git  
 cd youtube-app-backend
 ```
 
-#### Configure Environment Variables:
+#### Configure Environment Variables
 Create an env.properties file in the root directory with the following variables:
 ```
 GOOGLE_API_KEY=<your_api_key>
@@ -83,13 +89,13 @@ DATABASE_PASSWORD=<your_database_password>
 ALLOWED_ORIGINS=<your_frontend_urls> # Example: http://localhost:5173,http://localhost:3000
 ```
 
-#### Install Dependencies:
+#### Install Dependencies
 Use the Maven Wrapper (./mvnw or mvnw.cmd for Windows) to download and set up all dependencies:
 ```
 ./mvnw clean install
 ```
 
-#### Run the Application:
+#### Run the Application
 Start the Spring Boot server:
 ```
 ./mvnw spring-boot:run
@@ -113,8 +119,3 @@ POST /searchAuth – Perform a video search and add the query to the authenticat
 
 ### User Search History
 GET /history – Retrieve the search history of the authenticated user.
-
-## Links:
-Frontend Deployment: The frontend is deployed on [Vercel](https://youtube-app-tawny.vercel.app).
-
-Frontend Repository: View the frontend repository [here](https://github.com/katekorobova/youtube-app).
